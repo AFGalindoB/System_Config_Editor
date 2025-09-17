@@ -2,18 +2,17 @@ import os
 from sys import exit as secure_exit
 from cli_ui import advise, select_option, accept
 from add_archive import Add_Archive
-import config_manager
+from config_manager import setup_config
+from archive_manager import edit_a_path_config
 
-class System_Config_Editor(config_manager.ConfigurationManager):
+class System_Config_Editor():
     def __init__(self):
-        #Rutas
-        super().__init__()
 
         BIENVENIDA = "Bienvenid@ a System_Config_Editor"
 
         advise(BIENVENIDA)
         
-        config_manager.setup_config() # Verificar y crear configuraciones
+        setup_config()
 
         self.main_menu()
 
@@ -22,6 +21,7 @@ class System_Config_Editor(config_manager.ConfigurationManager):
 
         menu_options = {
             "Agregar un archivo":Add_Archive,
+            "Modificar una ruta almacenada":edit_a_path_config,
             "Editar un archivo":self.menu_edit_archive,
             "Restaurar un archivo":self.restore_archive,
             "Salir":self.exit_program 

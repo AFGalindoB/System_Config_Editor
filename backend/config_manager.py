@@ -8,9 +8,15 @@ class ConfigurationManager:
         self.templates_path = os.path.join(self.root_path, "templates")
         self.config_path = os.path.join(self.root_path, "config")
         self.config_file_path = os.path.join(self.config_path, "config.json")
+    
+def modify_config_json(config_file:dict) -> None:
+    config_file_path = ConfigurationManager().config_file_path
+    with open(config_file_path, "w") as f:
+        json.dump(config_file, f, indent=4)
 
 def setup_config() -> None:
-    """ Verifica que las configuraciones esten disponibles, si no es asi las crea """
+    """ Verifica que la carpeta de configuraciones este disponible y los archivos de configuracion
+    y si no es asi los genera a partir de los templates."""
     print("Revisando estado de las configuraciones...")
 
     paths = ConfigurationManager()
