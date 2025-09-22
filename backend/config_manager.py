@@ -6,8 +6,13 @@ class ConfigurationManager:
     def __init__(self):
         self.root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         self.templates_path = os.path.join(self.root_path, "templates")
+
         self.config_path = os.path.join(self.root_path, "config")
         self.config_file_path = os.path.join(self.config_path, "config.json")
+
+        self.backups_path = os.path.join(self.root_path, "backups")
+        self.auto_backups_path = os.path.join(self.backups_path, "auto")
+        self.manual_backups_path = os.path.join(self.backups_path, "manual")
     
 def modify_config_json(config_file:dict) -> None:
     config_file_path = ConfigurationManager().config_file_path
@@ -21,11 +26,13 @@ def setup_config() -> None:
 
     paths = ConfigurationManager()
 
-    # Crear carpeta config si no existe
-    if not os.path.exists(paths.config_path):
-        print("Preparando configuraciones...")
-        os.mkdir(paths.config_path)
-    
+    # Crear las carpetas necesarias si no existen
+    folders = [paths.config_path, paths.backups_path, paths.auto_backups_path, paths.manual_backups_path]
+    for folder in folders:
+        if not os.path.exists(folder):
+            print("Creando carpeta:", folder)
+            os.mkdir(folder)
+     
     # Copiar archivos de templates a config si no existen
     for file in os.listdir(paths.templates_path):
         src = os.path.join(paths.templates_path, file)
