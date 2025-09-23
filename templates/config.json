@@ -1,6 +1,9 @@
 {
     "version": "1.0.0",
     "editor": "nano",
+    "backup_configs":{
+        "max_auto_backups":10
+    },
     "path_configs": {
         
     }
