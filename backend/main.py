@@ -20,8 +20,8 @@ class System_Config_Editor():
         """ Menu principal del programa """
 
         menu_options = {
-            "Agregar un archivo":Add_Archive,
-            "Modificar una ruta almacenada":edit_a_path_config,
+            "Agregar un nuevo archivo a rastrear":Add_Archive,
+            "Modificar informacion de un archivo rastreado":edit_a_path_config,
             "Editar un archivo":Editor,
             "Restaurar un archivo":self.restore_archive,
             "Salir":self.exit_program 

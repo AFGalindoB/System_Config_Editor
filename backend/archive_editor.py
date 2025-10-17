@@ -1,7 +1,7 @@
 from archive_manager import get_path_archive, archive_is_in_config
 from add_archive import Add_Archive
 from config_manager import load_config
-from backup_manager import add_auto_backup
+from backup_manager import make_backup
 import os
 from shutil import which as is_installed
 from cli_ui import advise, accept
@@ -29,10 +29,14 @@ class Editor:
     def menu_edit_archive(self) -> None:
         if self.path != None:
 
-            add_auto_backup(self.name, self.path)
+            make_backup(self.name, self.path)
             self.edit_archive()
 
             if not archive_is_in_config("path", self.path, message=False):
                 advise("El archivo no se encuentra en las configuraciones.")
                 add = accept("¿Desea agregarlo?")
                 Add_Archive(path=self.path) if add else None
+            
+            advise("¿Desea guardar la configuracion actual?")
+            save = accept("¿Desea guardar la configuracion actual?")
+            make_backup(self.name, self.path, type_backup="manual") if save else None
