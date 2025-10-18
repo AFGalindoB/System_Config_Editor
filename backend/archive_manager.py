@@ -26,7 +26,6 @@ def archive_exist(text:str=None, path:str=None) -> str|bool:
         return False
 
 def archive_is_in_config(item_type, item, message=True) -> str|bool:
-    ## Refactorizar para que solo retorne un valor
     """
     Verifica si el nombre o la ruta de un archivo ya se encuentra en las configuraciones
     Args:

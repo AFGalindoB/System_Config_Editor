@@ -3,7 +3,7 @@ from config_manager import ConfigurationManager, load_config
 from datetime import datetime
 import os
 
-def make_backup(name, path:str, type_backup:str="auto") -> None:
+def make_backup(name, path:str, type_backup:str="auto", type_auto ="edition") -> None:
     """
     Crea un backup del archivo en la carpeta de backups 
     Args:
@@ -37,13 +37,13 @@ def make_backup(name, path:str, type_backup:str="auto") -> None:
             backups = sorted(os.listdir(backup_folder), reverse=True)
 
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        file_name = f"{base}_({timestamp}){ext}"
+        file_name = f"{base}_({type_auto}:{timestamp}){ext}"
         dst = os.path.join(backup_folder, file_name)
 
         copy2(path, dst)
         print(f"Backup '{file_name}' creado en: {backup_folder}")
     else:
-        backup_name = input("Ingrese el nombre con el que se guardara el respaldo: ")
+        backup_name = input("Ingrese el nombre con la que se guardara la configuracion: ")
         file_name = f"{base}_({backup_name}){ext}"
 
         dst = os.path.join(backup_folder, file_name)
