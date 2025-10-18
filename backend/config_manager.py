@@ -1,5 +1,7 @@
 import os
-from shutil import copy
+from sys import exit as secure_exit
+from shutil import copy, which
+from cli_ui import advise, accept
 import json
 
 class ConfigurationManager:
@@ -21,7 +23,8 @@ def modify_config_json(config_file:dict) -> None:
 
 def setup_config() -> None:
     """ Verifica que la carpeta de configuraciones este disponible y los archivos de configuracion
-    y si no es asi los genera a partir de los templates."""
+    y si no es asi los genera a partir de los templates. A su vez revisa que las dependencias se
+    encuentren en orden."""
     print("Revisando estado de las configuraciones...")
 
     paths = ConfigurationManager()
@@ -32,7 +35,8 @@ def setup_config() -> None:
         if not os.path.exists(folder):
             print("Creando carpeta:", folder)
             os.mkdir(folder)
-     
+    print("Carpetas en orden.")
+
     # Copiar archivos de templates a config si no existen
     for file in os.listdir(paths.templates_path):
         src = os.path.join(paths.templates_path, file)
@@ -41,8 +45,27 @@ def setup_config() -> None:
         if not os.path.exists(dst):
             copy(src, dst)
             print("Archivo Creado:", dst)
-    
-    print("Configuraciones En Orden")
+    print("Archivos de configuracion en orden.")
+
+    # Verificar dependencias del sistema
+    if which("nano") is None:
+        advise("Ups! Parece que no tienes 'nano' instalado.")
+        if accept("¿Deseas usar algun otro editor?"):
+            editor = input("Ingresa el nombre del editor que deseas usar (debe estar instalado en el sistema): ")
+            if which(editor) is None:
+                advise(f"El editor '{editor}' no se encuentra instalado. Saliendo...")
+                secure_exit("Saliendo...")
+            else:
+                config_data = load_config()
+                config_data["editor"] = editor
+                modify_config_json(config_data)
+                advise(f"Editor por defecto cambiado a '{editor}'.")
+        else:
+            print("Saliendo... Por favor instala 'nano' o cambia el editor por defecto en el archivo de configuracion.")
+            secure_exit("Saliendo...")
+    print("Dependencias en orden.")
+
+    advise("Configuraciones En Orden")
 
 def load_config() -> dict:
     """ Carga el archivo de configuracion """

@@ -1,19 +1,8 @@
-# System Config Editor
-Este es un programa destinado a los usuarios de linux que manipulen archivos de configuracion para personalizar su entorno
-
-## Introduccion
-Este es un programa desarrollado en **Python** que se encarga de gestionar los archivos (.conf, .css etc) que use el usuario para personalizar su entorno permitiendole:
-
-1. Administrar sus archivos de configuraciones
-2. Poder editar sus archivos desde el programa usando el editor de su preferencia 
-3. Tener copias de seguridad automaticas que le permitan restaurar sus archivos de configuracion en caso de fallo
-4. Guardar manualmente distintas configuraciones que halla realizado
-5. Poder cambiar entre distintas configuraciones que el usuario tenga
-6. Poder comparar sus archivos de configuraciones para trasladar sus personalizaciones de una configuracion pasada a la nueva
-
 Este documento busca ser una guia ayuda para el desarrollador que desee modificar el codigo entendiendo el funcionamiento del programa
 
 ## Arquitectura
+![Arquitectura del sistema](Estructura_micro-servicios.png)
+
 El proyecto se divide en las carpetas:
 
 ### Backend
@@ -21,7 +10,7 @@ Contiene todos los scripts del programa
 - **main.py:**
     Este es el script principal para ejecutar la aplicacion
 - **add_archive.py:**
-    Se encarga de añadir nuevos archivos de configuracion a las configuraciones del programa
+    Se encarga de añadir nuevos archivos de configuracion a las configuraciones del programa.
 - **archive_editor.py:**
     Se encarga de gestionar el sistema de edicion de los archivos de configuracion
 - **archive_manager.py:**
