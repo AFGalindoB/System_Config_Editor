@@ -2,7 +2,7 @@ from sys import exit as secure_exit
 from cli_ui import advise, select_option
 from archive_editor import Editor
 from add_archive import Add_Archive
-from config_manager import setup_config
+from config_manager import setup_config, edit_config
 from restore_archive import restore_archive
 from archive_manager import edit_a_path_config
 
@@ -25,6 +25,7 @@ class System_Config_Editor():
             "Modificar informacion de un archivo rastreado":edit_a_path_config,
             "Editar un archivo":Editor,
             "Restaurar un archivo":restore_archive,
+            "Editar Configuraciones":edit_config,
             "Salir":self.exit_program 
             }
         

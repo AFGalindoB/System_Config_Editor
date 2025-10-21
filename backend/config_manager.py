@@ -1,7 +1,7 @@
 import os
 from sys import exit as secure_exit
 from shutil import copy, which
-from cli_ui import advise, accept
+from cli_ui import advise, accept, select_option
 import json
 
 class ConfigurationManager:
@@ -73,3 +73,36 @@ def load_config() -> dict:
     with open(paths.config_file_path, "r") as f:
         config_data = json.load(f)
     return config_data
+
+def edit_config() -> None:
+    """ Permite al usuario editar las configuraciones del programa """
+    config_data = load_config()
+    editor = config_data["editor"]
+    max_backups = config_data["backup_configs"]["max_auto_backups"]
+
+    advise("Configuracion Actual")
+    print(f"Editor: {editor}", f"Limite de copias de seguridad automaticas: {max_backups}", sep="\n", end="\n\n")
+    option = select_option("¿Que desea modificar?", ["Editor", "Limite de copias de seguridad automaticas", "Salir"])
+
+    if option == 1:
+        new_editor = input("Ingrese el nombre del nuevo editor (debe estar instalado en el sistema): ")
+        if which(new_editor) is None:
+            advise(f"El editor '{new_editor}' no se encuentra instalado. No se realizaron cambios.")
+        else:
+            config_data["editor"] = new_editor
+            modify_config_json(config_data)
+            advise(f"Editor cambiado a '{new_editor}'.")
+    elif option == 2:
+        while True:
+            try:
+                new_max = int(input("Ingrese el nuevo limite de copias de seguridad automaticas (numero entero): "))
+                if new_max < 1:
+                    raise ValueError
+                break
+            except ValueError:
+                advise("Por favor ingrese un numero entero valido mayor que 0.")
+        config_data["backup_configs"]["max_auto_backups"] = new_max
+        modify_config_json(config_data)
+        advise(f"Limite de copias de seguridad automaticas cambiado a {new_max}.")
+    else:
+        advise("Saliendo sin realizar cambios.")

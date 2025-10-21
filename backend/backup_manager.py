@@ -37,15 +37,11 @@ def make_backup(name, path:str, type_backup:str="auto", type_auto ="edition") ->
             backups = sorted(os.listdir(backup_folder), reverse=True)
 
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        file_name = f"{base}_({type_auto}:{timestamp}){ext}"
-        dst = os.path.join(backup_folder, file_name)
-
-        copy2(path, dst)
-        print(f"Backup '{file_name}' creado en: {backup_folder}")
+        file_name = f"{base}({type_auto}:{timestamp}){ext}"
     else:
         backup_name = input("Ingrese el nombre con la que se guardara la configuracion: ")
-        file_name = f"{base}_({backup_name}){ext}"
+        file_name = f"{base}({backup_name}){ext}"
 
-        dst = os.path.join(backup_folder, file_name)
-        copy2(path, dst)
-        print(f"Backup '{file_name}' creado en: {backup_folder}")
+    dst = os.path.join(backup_folder, file_name)
+    copy2(path, dst)
+    print(f"Backup '{file_name}' creado en: {backup_folder}")

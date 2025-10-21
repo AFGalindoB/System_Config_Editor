@@ -1,5 +1,6 @@
 from cli_ui import advise, select_option
 from config_manager import ConfigurationManager, load_config
+from archive_manager import archive_exist, edit_a_path_config
 from backup_manager import make_backup
 from shutil import copy2
 import os
@@ -41,9 +42,14 @@ def restore_archive():
     folder_to_restore = folders_name[folder_index - 1]
     destination = load_config()["path_configs"][folder_to_restore]
 
+    if not archive_exist(path=destination):
+        advise(f"La ruta del archivo {folder_to_restore} rastreada en las configuraciones no existe")
+        edit_a_path_config(repair=True)
+        destination = load_config()["path_configs"][folder_to_restore]
+
     archive_restorable_name = os.path.basename(archive_to_restore)
     advise(f"Restaurando archivo: {archive_restorable_name}...")
-    
+
     make_backup(name=folder_to_restore, path=destination, type_auto="restore")
     copy2(archive_to_restore, destination)
-    advise(f"Archivo '{archive_restorable_name}' restaurado con exito en: {destination}")
+    advise(f"Archivo '{archive_restorable_name}' restaurado con exito.")
