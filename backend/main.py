@@ -5,6 +5,7 @@ from add_archive import Add_Archive
 from config_manager import setup_config, edit_config
 from restore_archive import restore_archive
 from archive_manager import edit_a_path_config
+from featured_configs import menu as featured_configs
 
 class System_Config_Editor():
     def __init__(self):
@@ -22,6 +23,7 @@ class System_Config_Editor():
 
         menu_options = {
             "Agregar un nuevo archivo a rastrear":Add_Archive,
+            "Configuraciones destacadas":featured_configs,
             "Modificar informacion de un archivo rastreado":edit_a_path_config,
             "Editar un archivo":Editor,
             "Restaurar un archivo":restore_archive,

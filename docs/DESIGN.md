@@ -37,5 +37,6 @@ Contiene las plantillas que usaran los scripts para generar sus configuraciones:
     - path_configs: Contiene datos en una estructura (clave-valor) de los archivos de configuracion que el usuario quiere administrar "El nombre del archivo de configuracion"-"El path del archivo a guardar"
 
 ## Funcionalidades A Agregar
-- Sistema de intercambio de archivos
+- Sistema de intercambio de archivos destacados
+- Sistema de eliminacion de archivos destacados
 - Sistema de comparacion de archivos

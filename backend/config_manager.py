@@ -21,6 +21,13 @@ def modify_config_json(config_file:dict) -> None:
     with open(config_file_path, "w") as f:
         json.dump(config_file, f, indent=4)
 
+def load_config() -> dict:
+    """ Carga el archivo de configuracion """
+    paths = ConfigurationManager()
+    with open(paths.config_file_path, "r") as f:
+        config_data = json.load(f)
+    return config_data
+
 def setup_config() -> None:
     """ Verifica que la carpeta de configuraciones este disponible y los archivos de configuracion
     y si no es asi los genera a partir de los templates. A su vez revisa que las dependencias se
@@ -45,6 +52,22 @@ def setup_config() -> None:
         if not os.path.exists(dst):
             copy(src, dst)
             print("Archivo Creado:", dst)
+        
+        # Verificar la integridad de los archivos de configuracion .json
+        if file == "config.json":
+            # Cargar los .json de src y dst
+            with open(src, "r") as f:
+                src_configs = json.load(f)
+            dst_configs = load_config()
+
+            # Verificar que todas las claves de src esten en dst
+            for key, value in src_configs.items():
+                if not key in dst_configs:
+                    dst_configs[key] = value
+                    modify_config_json(dst_configs)
+                    print(f"Agregada nueva configuracion '{key}' al archivo de configuracion.")
+            print(f"Archivo {file} en orden.")
+            
     print("Archivos de configuracion en orden.")
 
     # Verificar dependencias del sistema
@@ -66,13 +89,6 @@ def setup_config() -> None:
     print("Dependencias en orden.")
 
     advise("Configuraciones En Orden")
-
-def load_config() -> dict:
-    """ Carga el archivo de configuracion """
-    paths = ConfigurationManager()
-    with open(paths.config_file_path, "r") as f:
-        config_data = json.load(f)
-    return config_data
 
 def edit_config() -> None:
     """ Permite al usuario editar las configuraciones del programa """

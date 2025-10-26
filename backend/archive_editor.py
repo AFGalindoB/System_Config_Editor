@@ -17,7 +17,7 @@ class Editor:
         """ Abre el archivo usando el editor guardado en las configuraciones (nano por defecto) """
         config = load_config()
 
-        editor_name = config.get("editor", "nano") # Obtener el editor configurado, por defecto nano
+        editor_name = config["editor"]
         print(f"Abriendo archivo '{self.name if self.name else self.path}'...\n")
             
         if is_installed(editor_name) is None:
